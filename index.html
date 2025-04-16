@@ -13,8 +13,14 @@
     <a-scene embedded arjs="sourceType: webcam;">
 
       <!-- Lighting -->
-      <a-entity light="type: ambient; color: #888"></a-entity>
-      <a-entity light="type: directional; color: #ffffff; intensity: 1" position="1 2 1"></a-entity>
+      <!-- White light from front-right -->
+      <a-entity light="type: directional; color: #ffffff; intensity: 1.2" position="2 2 1"></a-entity>
+
+      <!-- Warm orange light from back-left -->
+      <a-entity light="type: directional; color: #ffaa55; intensity: 0.8" position="-2 2 -1"></a-entity>
+
+      <!-- Optional ambient fill light -->
+      <a-entity light="type: ambient; color: #444444"></a-entity>
 
       <!-- Load your .glb model -->
       <a-assets>
