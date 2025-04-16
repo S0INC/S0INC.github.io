@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>AR.js + Porsche 911</title>
-    <!-- A-Frame -->
-    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
-    <!-- AR.js -->
+
+    <!-- A-Frame (latest stable version) -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <!-- AR.js for A-Frame -->
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
   </head>
 
@@ -17,7 +19,7 @@
       <a-entity light="type: directional; color: #ffaa55; intensity: 0.8" position="-2 2 -1"></a-entity>
       <a-entity light="type: ambient; color: #444444"></a-entity>
 
-      <!-- Load your .glb model -->
+      <!-- Assets -->
       <a-assets>
         <a-asset-item 
           id="911" 
@@ -27,31 +29,29 @@
 
       <!-- Marker -->
       <a-marker preset="hiro">
-        
-        <!-- Wrapper that rotates -->
+
+        <!-- Rotating entity -->
         <a-entity 
           id="rotator" 
-          animation="property: rotation; to: 0 360 0; loop: true; dur: 8000;">
+          rotation="0 0 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear;">
           
-          <!-- Actual car model -->
+          <!-- Car model -->
           <a-entity 
             gltf-model="#911" 
             scale="0.5 0.5 0.5" 
-            rotation="0 0 0" 
             position="0 0 0">
           </a-entity>
-
         </a-entity>
 
-        <!-- Label -->
+        <!-- Label text -->
         <a-text 
           value="1975 Porsche 911 Turbo" 
-          position="-0.3 1 0" 
+          position="0 1 0" 
           scale="1 1 1" 
           color="white" 
           align="center">
         </a-text>
-
       </a-marker>
 
       <!-- AR Camera -->
