@@ -12,24 +12,27 @@
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam;">
       
-      <!-- Assets: load the GLTF model -->
+      <!-- Load your Porsche 911 GLB model -->
       <a-assets>
-        <a-asset-item id="911" src="free_1975_porsche_911_930_turbo.glb"></a-asset-item>
+        <a-asset-item 
+          id="911" 
+          src="https://S0INC.github.io/free_1975_porsche_911_930_turbo.glb">
+        </a-asset-item>
       </a-assets>
 
-      <!-- Marker contains the 3D model and optional content -->
+      <!-- Marker with model and text -->
       <a-marker preset="hiro">
         <a-entity 
           gltf-model="#911" 
-          scale="0.5 0.5 0.5" 
+          scale="0.3 0.3 0.3" 
           position="0 0 0" 
           rotation="0 180 0">
         </a-entity>
 
         <a-text 
-          value="Hello, World!" 
-          position="-2 1 0" 
-          scale="2 2 2" 
+          value="1975 Porsche 911 Turbo" 
+          position="0 1 0" 
+          scale="1 1 1" 
           color="white">
         </a-text>
       </a-marker>
