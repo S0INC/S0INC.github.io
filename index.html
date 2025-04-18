@@ -19,7 +19,7 @@
       top: 10px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.7);
+      background:rgba(0, 0, 0, 0.7);
       color: white;
       padding: 10px 20px;
       font-family: sans-serif;
@@ -28,6 +28,23 @@
       text-align: center;">
       Point your camera at the Hiro marker to see the Porsche 911 GT2 RS in AR.
     </div>
+
+    <!-- Rev Button -->
+    <button id="revButton" style="
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-family: sans-serif;
+      background-color: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;">
+      Rev Engine
+    </button>
 
     <!-- A-Frame Scene -->
     <a-scene embedded arjs="sourceType: webcam;">
@@ -43,15 +60,16 @@
           id="911" 
           src="https://S0INC.github.io/porsche_911_gt2_rs.glb">
         </a-asset-item>
-        <audio 
-          id="engineSound" 
-          src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_52e846dc34.mp3" 
-          preload="auto">
-        </audio>
 
         <audio 
           id="porscheSound" 
           src="ytmp3free.cc_911-gt2-rs-a-nfs-hot-pursuit-car-intro-youtubemp3free.org.mp3" 
+          preload="auto">
+        </audio>
+
+        <audio 
+          id="revSound" 
+          src="ytmp3freecc-gt2rs-revving-extremely-loud-pops-and-bangs-shorts-youtubemp3freeo_0jY17NtL.mp3" 
           preload="auto">
         </audio>
       </a-assets>
@@ -82,17 +100,9 @@
           align="center">
         </a-text>
 
-        <!-- Engine Sound -->
+        <!-- Porsche Sound -->
         <a-sound 
-          src="#engineSound" 
-          autoplay="true" 
-          loop="true" 
-          volume="0.5" 
-          position="0 0.5 0">
-        </a-sound>
-
-        <a-sound 
-          src="#porcheSound" 
+          src="#porscheSound" 
           autoplay="true" 
           loop="true" 
           volume="1" 
@@ -104,18 +114,30 @@
       <a-entity camera></a-entity>
     </a-scene>
 
-    <!-- JS to Hide Instructions -->
+    <!-- JS to Hide Instructions and Handle Button -->
     <script>
       const instructions = document.getElementById("instructions");
       const marker = document.getElementById("hiroMarker");
+      const revButton = document.getElementById("revButton");
+      const revSound = document.getElementById("revSound");
 
       marker.addEventListener("markerFound", () => {
         instructions.style.display = "none";
+        revButton.style.display = "block";
       });
 
       marker.addEventListener("markerLost", () => {
         instructions.style.display = "block";
+        revButton.style.display = "none";
       });
+
+      revButton.addEventListener("click", () => {
+        revSound.currentTime = 0;
+        revSound.play();
+      });
+
+      // Hide button until marker is found
+      revButton.style.display = "none";
     </script>
 
   </body>
