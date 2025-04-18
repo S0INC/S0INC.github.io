@@ -25,11 +25,14 @@
           id="911" 
           src="https://S0INC.github.io/free_1975_porsche_911_930_turbo.glb">
         </a-asset-item>
+
+        <!-- Audio asset -->
+        <audio id="engineSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_52e846dc34.mp3" preload="auto"></audio>
+        <audio id="porscheSound" src="ytmp3free.cc_911-gt2-rs-a-nfs-hot-pursuit-car-intro-youtubemp3free.org.mp3" preload="auto"></audio>
       </a-assets>
 
       <!-- Marker -->
       <a-marker preset="hiro">
-
         <!-- Rotating wrapper -->
         <a-entity 
           id="rotator" 
@@ -52,7 +55,24 @@
           color="white" 
           align="center">
         </a-text>
+
+        <!-- Sound -->
+        <a-sound 
+          src="#engineSound" 
+          autoplay="true" 
+          loop="true" 
+          volume="0.5"
+          position="0 0.5 0">
+        </a-sound>
+        
+        <a-sound 
+          src="#engineSound" 
+          autoplay="true" 
+          loop="true" 
+          position="0 0.5 0">
+        </a-sound>
       </a-marker>
+
 
       <!-- AR Camera -->
       <a-entity camera></a-entity>
