@@ -29,6 +29,25 @@
       Point your camera at the Hiro marker to see the Porsche 911 GT2 RS in AR.
     </div>
 
+    <!-- Tap To Play Prompt -->
+    <div id="tapToPlay" style="
+      display: none;
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 12px 20px;
+      font-family: sans-serif;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1000;
+      text-align: center;
+      font-size: 16px;">
+      Tap here to know more!
+    </div>
+
     <!-- Rev Button -->
     <button id="revButton" style="
       position: absolute;
@@ -115,39 +134,50 @@
       <a-entity camera></a-entity>
     </a-scene>
 
-    <!-- JS to Hide Instructions and Handle Button -->
+    <!-- JS to Handle UI + Sounds -->
     <script>
       const instructions = document.getElementById("instructions");
       const marker = document.getElementById("hiroMarker");
       const revButton = document.getElementById("revButton");
       const revSound = document.getElementById("revSound");
       const porscheSoundEntity = document.querySelector('#porscheSoundEntity');
+      const tapToPlay = document.getElementById("tapToPlay");
 
-      // Hide instructions and show rev button when marker is found
+      let userInteracted = false;
+
+      // Allow AudioContext on user interaction
+      document.body.addEventListener("click", () => {
+        userInteracted = true;
+      });
+
       marker.addEventListener("markerFound", () => {
         instructions.style.display = "none";
         revButton.style.display = "block";
-        
-        // Play Porsche sound when marker is found
-        porscheSoundEntity.components.sound.playSound();
+        tapToPlay.style.display = "block";
       });
 
       marker.addEventListener("markerLost", () => {
         instructions.style.display = "block";
         revButton.style.display = "none";
-        
-        // Stop Porsche sound when marker is lost
+        tapToPlay.style.display = "none";
         porscheSoundEntity.components.sound.stopSound();
       });
 
-      // Rev engine button logic
       revButton.addEventListener("click", () => {
         revSound.currentTime = 0;
         revSound.play();
       });
 
-      // Hide button until marker is found
+      tapToPlay.addEventListener("click", () => {
+        if (userInteracted) {
+          porscheSoundEntity.components.sound.playSound();
+          tapToPlay.style.display = "none";
+        }
+      });
+
+      // Hide button and tap text initially
       revButton.style.display = "none";
+      tapToPlay.style.display = "none";
     </script>
 
   </body>
