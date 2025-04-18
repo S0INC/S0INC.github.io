@@ -119,15 +119,6 @@
           align="center">
         </a-text>
 
-        <!-- Porsche Sound (set to not autoplay) -->
-        <a-sound 
-          id="porscheSoundEntity" 
-          src="#porscheSound" 
-          autoplay="false" 
-          loop="true" 
-          volume="1" 
-          position="0 0.5 0">
-        </a-sound>
       </a-marker>
 
       <!-- AR Camera -->
@@ -140,7 +131,7 @@
       const marker = document.getElementById("hiroMarker");
       const revButton = document.getElementById("revButton");
       const revSound = document.getElementById("revSound");
-      const porscheSoundEntity = document.querySelector('#porscheSoundEntity');
+      const porscheSound = document.getElementById('#porscheSound');
       const tapToPlay = document.getElementById("tapToPlay");
 
       let userInteracted = false;
@@ -160,7 +151,6 @@
         instructions.style.display = "block";
         revButton.style.display = "none";
         tapToPlay.style.display = "none";
-        porscheSoundEntity.components.sound.stopSound();
       });
 
       revButton.addEventListener("click", () => {
@@ -170,7 +160,7 @@
 
       tapToPlay.addEventListener("click", () => {
         if (userInteracted) {
-          porscheSoundEntity.components.sound.playSound();
+          porscheSoundEntity.play();
           tapToPlay.style.display = "none";
         }
       });
