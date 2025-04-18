@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>AR.js + Porsche 911</title>
 
-    <!-- A-Frame (newer version) -->
+    <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 
     <!-- AR.js -->
@@ -12,6 +12,24 @@
   </head>
 
   <body style="margin: 0; overflow: hidden;">
+
+    <!-- UI Instructions Overlay -->
+    <div id="instructions" style="
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      font-family: sans-serif;
+      border-radius: 10px;
+      z-index: 1000;
+      text-align: center;">
+      Point your camera at the Hiro marker to see the 1975 Porsche 911 Turbo in AR.
+    </div>
+
+    <!-- A-Frame Scene -->
     <a-scene embedded arjs="sourceType: webcam;">
 
       <!-- Lighting -->
@@ -23,23 +41,31 @@
       <a-assets>
         <a-asset-item 
           id="911" 
-          src="https://S0INC.github.io/free_1975_porsche_911_930_turbo.glb">
+          src="https://S0INC.github.io/porsche_911_gt2_rs.glb">
         </a-asset-item>
+        <audio 
+          id="engineSound" 
+          src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_52e846dc34.mp3" 
+          preload="auto">
+        </audio>
 
-        <!-- Audio asset -->
-        <audio id="engineSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_52e846dc34.mp3" preload="auto"></audio>
-        <audio id="porscheSound" src="ytmp3free.cc_911-gt2-rs-a-nfs-hot-pursuit-car-intro-youtubemp3free.org.mp3" preload="auto"></audio>
+        <audio 
+          id="porscheSound" 
+          src="ytmp3free.cc_911-gt2-rs-a-nfs-hot-pursuit-car-intro-youtubemp3free.org.mp3" 
+          preload="auto">
+        </audio>
       </a-assets>
 
       <!-- Marker -->
-      <a-marker preset="hiro">
-        <!-- Rotating wrapper -->
+      <a-marker preset="hiro" id="hiroMarker">
+
+        <!-- Rotating Wrapper -->
         <a-entity 
           id="rotator" 
           rotation="0 0 0"
           animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear;">
           
-          <!-- Car model -->
+          <!-- 3D Car Model -->
           <a-entity 
             gltf-model="#911" 
             scale="0.5 0.5 0.5" 
@@ -56,26 +82,41 @@
           align="center">
         </a-text>
 
-        <!-- Sound -->
+        <!-- Engine Sound -->
         <a-sound 
           src="#engineSound" 
           autoplay="true" 
           loop="true" 
-          volume="0.5"
+          volume="0.5" 
           position="0 0.5 0">
         </a-sound>
-        
+
         <a-sound 
-          src="#porscheSound" 
+          src="#porcheSound" 
           autoplay="true" 
           loop="true" 
+          volume="1" 
           position="0 0.5 0">
         </a-sound>
       </a-marker>
 
-
       <!-- AR Camera -->
       <a-entity camera></a-entity>
     </a-scene>
+
+    <!-- JS to Hide Instructions -->
+    <script>
+      const instructions = document.getElementById("instructions");
+      const marker = document.getElementById("hiroMarker");
+
+      marker.addEventListener("markerFound", () => {
+        instructions.style.display = "none";
+      });
+
+      marker.addEventListener("markerLost", () => {
+        instructions.style.display = "block";
+      });
+    </script>
+
   </body>
 </html>
