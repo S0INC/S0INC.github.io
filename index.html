@@ -101,7 +101,8 @@
         <a-entity 
           id="rotator" 
           rotation="0 0 0"
-          animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear;">
+          animation="property: rotation; to: 0 90 0; dir: alternate; dur: 4000; loop: true;">
+
           
           <!-- 3D Car Model -->
           <a-entity 
@@ -109,6 +110,7 @@
             gltf-model="#911" 
             scale="30 30 30" 
             position="0 0 0"
+            material="depthWrite: true; depthTest: true"
             visible="false">
           </a-entity>
         </a-entity>
