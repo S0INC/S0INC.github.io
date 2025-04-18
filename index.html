@@ -119,6 +119,15 @@
           align="center">
         </a-text>
 
+        <!-- Sound entity -->
+        <a-sound 
+          id="porscheSoundEntity" 
+          src="#porscheSound" 
+          autoplay="false" 
+          loop="true" 
+          volume="1" 
+          position="0 0.5 0">
+        </a-sound>
       </a-marker>
 
       <!-- AR Camera -->
@@ -131,16 +140,17 @@
       const marker = document.getElementById("hiroMarker");
       const revButton = document.getElementById("revButton");
       const revSound = document.getElementById("revSound");
-      const porscheSound = document.getElementById('#porscheSound');
       const tapToPlay = document.getElementById("tapToPlay");
+      const porscheSoundEntity = document.querySelector('#porscheSoundEntity');
 
       let userInteracted = false;
 
-      // Allow AudioContext on user interaction
+      // Detect user interaction
       document.body.addEventListener("click", () => {
         userInteracted = true;
       });
 
+      // Show/hide UI when marker is found/lost
       marker.addEventListener("markerFound", () => {
         instructions.style.display = "none";
         revButton.style.display = "block";
@@ -151,21 +161,24 @@
         instructions.style.display = "block";
         revButton.style.display = "none";
         tapToPlay.style.display = "none";
+        porscheSoundEntity.components.sound.stopSound(); // stop sound when lost
       });
 
+      // Rev engine sound
       revButton.addEventListener("click", () => {
         revSound.currentTime = 0;
         revSound.play();
       });
 
+      // Tap prompt to play Porsche sound
       tapToPlay.addEventListener("click", () => {
         if (userInteracted) {
-          porscheSoundEntity.play();
+          porscheSoundEntity.components.sound.playSound();
           tapToPlay.style.display = "none";
         }
       });
 
-      // Hide button and tap text initially
+      // Hide controls initially
       revButton.style.display = "none";
       tapToPlay.style.display = "none";
     </script>
