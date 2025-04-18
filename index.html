@@ -63,13 +63,13 @@
 
         <audio 
           id="porscheSound" 
-          src="info.mp3" 
+          src="https://cdn.pixabay.com/audio/2022/03/15/audio_52e846dc34.mp3" 
           preload="auto">
         </audio>
 
         <audio 
           id="revSound" 
-          src="ytmp3freecc-gt2rs-revving-extremely-loud-pops-and-bangs-shorts-youtubemp3freeo_0jY17NtL.mp3" 
+          src="https://ytmp3freecc-gt2rs-revving-extremely-loud-pops-and-bangs-shorts-youtubemp3freeo_0jY17NtL.mp3" 
           preload="auto">
         </audio>
       </a-assets>
@@ -100,10 +100,11 @@
           align="center">
         </a-text>
 
-        <!-- Porsche Sound -->
+        <!-- Porsche Sound (set to not autoplay) -->
         <a-sound 
+          id="porscheSoundEntity" 
           src="#porscheSound" 
-          autoplay="true" 
+          autoplay="false" 
           loop="true" 
           volume="1" 
           position="0 0.5 0">
@@ -120,17 +121,26 @@
       const marker = document.getElementById("hiroMarker");
       const revButton = document.getElementById("revButton");
       const revSound = document.getElementById("revSound");
+      const porscheSoundEntity = document.querySelector('#porscheSoundEntity');
 
+      // Hide instructions and show rev button when marker is found
       marker.addEventListener("markerFound", () => {
         instructions.style.display = "none";
         revButton.style.display = "block";
+        
+        // Play Porsche sound when marker is found
+        porscheSoundEntity.components.sound.playSound();
       });
 
       marker.addEventListener("markerLost", () => {
         instructions.style.display = "block";
         revButton.style.display = "none";
+        
+        // Stop Porsche sound when marker is lost
+        porscheSoundEntity.components.sound.stopSound();
       });
 
+      // Rev engine button logic
       revButton.addEventListener("click", () => {
         revSound.currentTime = 0;
         revSound.play();
