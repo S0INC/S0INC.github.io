@@ -110,7 +110,7 @@
           <a-entity 
             id="carModel"
             gltf-model="#911" 
-            scale="5 5 5" 
+            scale="0.01 0.01 0.01" 
             position="0 0 0"
             visible="false">
           </a-entity>
@@ -187,7 +187,9 @@
       const carModel = document.getElementById('carModel');
 
       carModel.addEventListener('model-loaded', () => {
+        console.log("Model loaded! Making visible.");
         carModel.setAttribute('visible', 'true');
+        carModel.setAttribute('position', '0 0 0'); // Ensure model is in the visible area
       });
 
       // Hide controls initially
