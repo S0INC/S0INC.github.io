@@ -67,7 +67,11 @@
     </button>
 
     <!-- A-Frame Scene with Timeout Extension -->
-    <a-scene embedded arjs="sourceType: webcam;" timeout="10000">
+    <a-scene 
+      embedded 
+      arjs="sourceType: webcam;" 
+      renderer="antialias: true; logarithmicDepthBuffer: true;" 
+      timeout="10000">
 
       <!-- Lighting -->
       <a-entity light="type: directional; color: #ffffff; intensity: 1.2" position="2 2 1"></a-entity>
@@ -101,8 +105,7 @@
         <a-entity 
           id="rotator" 
           rotation="0 0 0"
-          animation="property: rotation; to: 0 90 0; dir: alternate; dur: 4000; loop: true;">
-
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear;">
           
           <!-- 3D Car Model -->
           <a-entity 
