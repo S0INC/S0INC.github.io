@@ -1,204 +1,200 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="icon" href="data:,">
-    <meta charset="utf-8">
-    <title>AR.js + Porsche 911</title>
+<head>
+  <link rel="icon" href="data:,">
+  <meta charset="utf-8">
+  <title>AR.js + Mid Project</title>
 
-    <!-- A-Frame -->
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.2/aframe/build/aframe-ar.js"></script>
 
-    <!-- AR.js -->
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.2/aframe/build/aframe-ar.js"></script>
-  </head>
-
-  <body style="margin: 0; overflow: hidden;">
-
-    <!-- UI Instructions Overlay -->
-    <div id="instructions" style="
+  <style>
+    #menu {
       position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background:rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 10px 20px;
-      font-family: sans-serif;
-      border-radius: 10px;
-      z-index: 1000;
-      text-align: center;">
-      Point your camera at the Hiro marker to see the Porsche 911 GT2 RS in AR.
-    </div>
-
-    <!-- Tap To Play Prompt -->
-    <div id="tapToPlay" style="
-      display: none;
-      position: absolute;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 50px;
+      right: 10px;
       background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 12px 20px;
-      font-family: sans-serif;
+      padding: 10px;
       border-radius: 10px;
-      cursor: pointer;
-      z-index: 1000;
-      text-align: center;
-      font-size: 16px;">
-      Tap here to hear audio about the GT2 RS!
-    </div>
-
-    <!-- Rev Button -->
-    <button id="revButton" style="
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
+      color: white;
       font-family: sans-serif;
-      background-color: #ff4444;
+      z-index: 1000;
+    }
+    #menu button {
+      display: block;
+      margin: 5px 0;
+      padding: 8px 10px;
+      width: 150px;
+      background: #2a2a2a;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 5px;
       cursor: pointer;
-      z-index: 1000;">
-      Rev Engine
-    </button>
+    }
+    #menu button:hover {
+      background: #444;
+    }
+  </style>
+</head>
 
-    <!-- A-Frame Scene with Timeout Extension -->
-    <a-scene 
-      embedded 
-      arjs="sourceType: webcam;" 
-      renderer="antialias: true; logarithmicDepthBuffer: true;" 
-      timeout="10000">
+<body style="margin: 0; overflow: hidden;">
 
-      <!-- Lighting -->
-      <a-entity light="type: directional; color: #ffffff; intensity: 1.2" position="2 2 1"></a-entity>
-      <a-entity light="type: directional; color: #ffaa55; intensity: 0.8" position="-2 2 -1"></a-entity>
-      <a-entity light="type: ambient; color: #444444"></a-entity>
+  <!-- Instructions -->
+  <div id="instructions" style="
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background:rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    font-family: sans-serif;
+    border-radius: 10px;
+    z-index: 1000;
+    text-align: center;">
+    Point your camera at the Hiro marker to see the Village.
+  </div>
 
-      <!-- Assets -->
-      <a-assets>
-        <a-asset-item 
-          id="911" 
-          src="https://S0INC.github.io/2018_porsche_911_gt2_rs_weissach_package.glb">
-        </a-asset-item>
+  <!-- Side Menu -->
+  <div id="menu">
+    <button onclick="showModel('villageModel')">Village</button>
+    <button onclick="showModel('windModel')">Wind Charge</button>
+    <button onclick="showModel('geothermalModel')">Geothermal Plant</button>
+    <button onclick="showModel('solarModel')">Solar Panel</button>
+    <button onclick="showModel('waterModel')">Hydro Energy</button>
+    <button onclick="showModel('composterModel')">Composter</button>
+    <button onclick="showModel('bagsModel')">Re-usable Bags</button>
+  </div>
 
-        <audio 
-          id="porscheSound" 
-          src="info.mp3" 
-          preload="auto">
-        </audio>
+  <!-- A-Frame Scene -->
+  <a-scene embedded arjs="sourceType: webcam;" renderer="antialias: true; logarithmicDepthBuffer: true;" timeout="10000">
 
-        <audio 
-          id="revSound" 
-          src="rev.mp3" 
-          preload="auto">
-        </audio>
-      </a-assets>
+    <!-- Lighting -->
+    <a-entity light="type: directional; color: #ffffff; intensity: 1.2" position="2 2 1"></a-entity>
+    <a-entity light="type: directional; color: #ffaa55; intensity: 0.8" position="-2 2 -1"></a-entity>
+    <a-entity light="type: ambient; color: #444444"></a-entity>
 
-      <!-- Marker -->
-      <a-marker preset="hiro" id="hiroMarker">
+    <!-- Assets -->
+    <a-assets>
+      <a-asset-item id="villageAsset" src="PATH_TO_YOUR_VILLAGE_MODEL.fbx"></a-asset-item>
+      <a-asset-item id="windAsset" src="PATH_TO_WIND_MODEL.fbx"></a-asset-item>
+      <a-asset-item id="geothermalAsset" src="PATH_TO_GEOTHERMAL_MODEL.fbx"></a-asset-item>
+      <a-asset-item id="solarAsset" src="PATH_TO_SOLAR_PANEL_MODEL.fbx"></a-asset-item>
+      <a-asset-item id="waterAsset" src="PATH_TO_WATER_MODEL.fbx"></a-asset-item>
+      <a-asset-item id="composterAsset" src="PATH_TO_COMPOSTER_MODEL.fbx"></a-asset-item>
+      <a-asset-item id="bagsAsset" src="PATH_TO_REUSABLE_BAGS_MODEL.fbx"></a-asset-item>
+    </a-assets>
 
-        <!-- Rotating Wrapper -->
-        <a-entity 
-          id="rotator" 
-          rotation="0 0 0"
-          animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear;">
-          
-          <!-- 3D Car Model -->
-          <a-entity 
-            id="carModel"
-            gltf-model="#911" 
-            scale="30 30 30" 
-            position="0 0 0"
-            material="depthWrite: true; depthTest: true"
-            visible="false">
-          </a-entity>
-        </a-entity>
-
-        <!-- Sound entity -->
-        <a-sound 
-          id="porscheSoundEntity" 
-          src="#porscheSound" 
-          autoplay="false" 
-          loop="true" 
-          volume="1" 
-          position="0 0.5 0">
-        </a-sound>
-
-        <!-- Label -->
-        <a-text 
-          value="Porsche 911 GT2 RS" 
-          position="0 1 0" 
-          scale="1 1 1" 
-          color="white" 
-          align="center">
-        </a-text>
-      </a-marker>
+    <!-- Marker -->
+    <a-marker preset="hiro" id="hiroMarker">
+      <a-entity id="rotator" rotation="0 0 0"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear;">
         
+        <!-- Models -->
+        <a-entity id="villageModel" fbx-model="#villageAsset" scale="0.05 0.05 0.05" visible="true" touch-scale="true" touch-rotate="true"></a-entity>
+        <a-entity id="windModel" fbx-model="#windAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
+        <a-entity id="geothermalModel" fbx-model="#geothermalAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
+        <a-entity id="solarModel" fbx-model="#solarAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
+        <a-entity id="waterModel" fbx-model="#waterAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
+        <a-entity id="composterModel" fbx-model="#composterAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
+        <a-entity id="bagsModel" fbx-model="#bagsAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
 
-      <!-- AR Camera -->
-      <a-entity camera></a-entity>
-    </a-scene>
+      </a-entity>
+    </a-marker>
 
-    <!-- JS to Handle UI + Sounds -->
-    <script>
-      const instructions = document.getElementById("instructions");
-      const marker = document.getElementById("hiroMarker");
-      const revButton = document.getElementById("revButton");
-      const revSound = document.getElementById("revSound");
-      const tapToPlay = document.getElementById("tapToPlay");
-      const porscheSoundEntity = document.querySelector('#porscheSoundEntity');
+    <!-- Camera -->
+    <a-entity camera></a-entity>
+  </a-scene>
 
-      let userInteracted = false;
+  <script>
+    const instructions = document.getElementById("instructions");
+    const marker = document.getElementById("hiroMarker");
 
-      // Detect user interaction
-      document.body.addEventListener("click", () => {
-        userInteracted = true;
-      });
+    marker.addEventListener("markerFound", () => {
+      instructions.style.display = "none";
+    });
 
-      // Show/hide UI when marker is found/lost
-      marker.addEventListener("markerFound", () => {
-        instructions.style.display = "none";
-        revButton.style.display = "block";
-        tapToPlay.style.display = "block";
-      });
+    marker.addEventListener("markerLost", () => {
+      instructions.style.display = "block";
+    });
 
-      marker.addEventListener("markerLost", () => {
-        instructions.style.display = "block";
-        revButton.style.display = "none";
-        tapToPlay.style.display = "none";
-        porscheSoundEntity.components.sound.stopSound(); // stop sound when lost
-      });
-
-      // Rev engine sound
-      revButton.addEventListener("click", () => {
-        revSound.currentTime = 0;
-        revSound.play();
-      });
-
-      // Tap prompt to play Porsche sound
-      tapToPlay.addEventListener("click", () => {
-        if (userInteracted) {
-          porscheSoundEntity.components.sound.playSound();
-          tapToPlay.style.display = "none";
+    // Switching Models
+    function showModel(modelId) {
+      const models = [
+        'villageModel', 'windModel', 'geothermalModel',
+        'solarModel', 'waterModel', 'composterModel', 'bagsModel'
+      ];
+      models.forEach(id => {
+        const model = document.getElementById(id);
+        if (model) {
+          model.setAttribute('visible', id === modelId);
         }
       });
+    }
 
-      const carModel = document.getElementById('carModel');
+    // Touch Scaling and Rotating Logic
+    AFRAME.registerComponent('touch-scale', {
+      init: function () {
+        this.scaleStart = 1;
+        this.scaleFactor = 1;
+        this.el.addEventListener('touchstart', this.onTouchStart.bind(this));
+        this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
+        this.el.addEventListener('touchend', this.onTouchEnd.bind(this));
+      },
 
-      carModel.addEventListener('model-loaded', () => {
-        console.log("Model loaded! Making visible.");
-        carModel.setAttribute('visible', 'true');
-        carModel.setAttribute('position', '0 0 0'); // Ensure model is in the visible area
-      });
+      onTouchStart: function (event) {
+        if (event.touches.length === 2) {
+          this.scaleStart = this.calculateDistance(event.touches[0], event.touches[1]);
+        }
+      },
 
-      // Hide controls initially
-      revButton.style.display = "none";
-      tapToPlay.style.display = "none";
-    </script>
+      onTouchMove: function (event) {
+        if (event.touches.length === 2) {
+          const scaleEnd = this.calculateDistance(event.touches[0], event.touches[1]);
+          this.scaleFactor = scaleEnd / this.scaleStart;
+          this.el.setAttribute('scale', {
+            x: this.scaleFactor,
+            y: this.scaleFactor,
+            z: this.scaleFactor
+          });
+        }
+      },
 
-  </body>
+      onTouchEnd: function () {
+        this.scaleStart = 1;
+        this.scaleFactor = 1;
+      },
+
+      calculateDistance: function (touch1, touch2) {
+        const dx = touch2.pageX - touch1.pageX;
+        const dy = touch2.pageY - touch1.pageY;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+    });
+
+    // Rotation on Scroll
+    AFRAME.registerComponent('touch-rotate', {
+      init: function () {
+        this.lastY = null;
+        this.rotationSpeed = 0.5;
+
+        this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
+      },
+
+      onTouchMove: function (event) {
+        if (event.touches.length === 1) {
+          const touch = event.touches[0];
+          if (this.lastY !== null) {
+            const deltaY = touch.pageY - this.lastY;
+            const rotation = this.el.getAttribute('rotation');
+            rotation.y += deltaY * this.rotationSpeed;
+            this.el.setAttribute('rotation', rotation);
+          }
+          this.lastY = touch.pageY;
+        }
+      }
+    });
+  </script>
+
+</body>
 </html>
