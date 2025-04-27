@@ -3,7 +3,8 @@
 <head>
   <link rel="icon" href="data:,">
   <meta charset="utf-8">
-  <title>AR.js + Mid Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>AR.js + Mid Project (GLB Version)</title>
 
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.2/aframe/build/aframe-ar.js"></script>
@@ -76,13 +77,13 @@
 
     <!-- Assets -->
     <a-assets>
-      <a-asset-item id="villageAsset" src="PATH_TO_YOUR_VILLAGE_MODEL.fbx"></a-asset-item>
-      <a-asset-item id="windAsset" src="PATH_TO_WIND_MODEL.fbx"></a-asset-item>
-      <a-asset-item id="geothermalAsset" src="PATH_TO_GEOTHERMAL_MODEL.fbx"></a-asset-item>
-      <a-asset-item id="solarAsset" src="PATH_TO_SOLAR_PANEL_MODEL.fbx"></a-asset-item>
-      <a-asset-item id="waterAsset" src="PATH_TO_WATER_MODEL.fbx"></a-asset-item>
-      <a-asset-item id="composterAsset" src="PATH_TO_COMPOSTER_MODEL.fbx"></a-asset-item>
-      <a-asset-item id="bagsAsset" src="paper_bag(1).fbx"></a-asset-item>
+      <a-asset-item id="villageAsset" src="map2.glb"></a-asset-item>
+      <a-asset-item id="windAsset" src="wind_charge.glb"></a-asset-item>
+      <a-asset-item id="geothermalAsset" src="geothermalplant.glb"></a-asset-item>
+      <a-asset-item id="solarAsset" src="solar.glb"></a-asset-item>
+      <a-asset-item id="waterAsset" src="water.glb"></a-asset-item>
+      <a-asset-item id="composterAsset" src="composter.glb"></a-asset-item>
+      <a-asset-item id="bagsAsset" src="paper_bag(1).glb"></a-asset-item>
     </a-assets>
 
     <!-- Marker -->
@@ -91,13 +92,13 @@
         animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear;">
         
         <!-- Models -->
-        <a-entity id="villageModel" fbx-model="#villageAsset" scale="0.05 0.05 0.05" visible="true" touch-scale="true" touch-rotate="true"></a-entity>
-        <a-entity id="windModel" fbx-model="#windAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
-        <a-entity id="geothermalModel" fbx-model="#geothermalAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
-        <a-entity id="solarModel" fbx-model="#solarAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
-        <a-entity id="waterModel" fbx-model="#waterAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
-        <a-entity id="composterModel" fbx-model="#composterAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
-        <a-entity id="bagsModel" fbx-model="#bagsAsset" scale="0.05 0.05 0.05" visible="false" touch-scale="true" touch-rotate="true"></a-entity>
+        <a-entity id="villageModel" gltf-model="#villageAsset" scale="0.05 0.05 0.05" visible="true" touch-scale touch-rotate></a-entity>
+        <a-entity id="windModel" gltf-model="#windAsset" scale="0.05 0.05 0.05" visible="false" touch-scale touch-rotate></a-entity>
+        <a-entity id="geothermalModel" gltf-model="#geothermalAsset" scale="0.05 0.05 0.05" visible="false" touch-scale touch-rotate></a-entity>
+        <a-entity id="solarModel" gltf-model="#solarAsset" scale="0.05 0.05 0.05" visible="false" touch-scale touch-rotate></a-entity>
+        <a-entity id="waterModel" gltf-model="#waterAsset" scale="0.05 0.05 0.05" visible="false" touch-scale touch-rotate></a-entity>
+        <a-entity id="composterModel" gltf-model="#composterAsset" scale="0.05 0.05 0.05" visible="false" touch-scale touch-rotate></a-entity>
+        <a-entity id="bagsModel" gltf-model="#bagsAsset" scale="0.05 0.05 0.05" visible="false" touch-scale touch-rotate></a-entity>
 
       </a-entity>
     </a-marker>
@@ -132,65 +133,52 @@
       });
     }
 
-    // Touch Scaling and Rotating Logic
+    // Touch Scaling Component
     AFRAME.registerComponent('touch-scale', {
       init: function () {
-        this.scaleStart = 1;
-        this.scaleFactor = 1;
-        this.el.addEventListener('touchstart', this.onTouchStart.bind(this));
-        this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
-        this.el.addEventListener('touchend', this.onTouchEnd.bind(this));
+        this.initialDistance = null;
+        this.initialScale = this.el.object3D.scale.clone();
+        this.el.sceneEl.addEventListener('touchstart', this.onTouchStart.bind(this));
+        this.el.sceneEl.addEventListener('touchmove', this.onTouchMove.bind(this));
       },
-
       onTouchStart: function (event) {
         if (event.touches.length === 2) {
-          this.scaleStart = this.calculateDistance(event.touches[0], event.touches[1]);
+          this.initialDistance = this.getDistance(event.touches[0], event.touches[1]);
+          this.initialScale = this.el.object3D.scale.clone();
         }
       },
-
       onTouchMove: function (event) {
-        if (event.touches.length === 2) {
-          const scaleEnd = this.calculateDistance(event.touches[0], event.touches[1]);
-          this.scaleFactor = scaleEnd / this.scaleStart;
-          this.el.setAttribute('scale', {
-            x: this.scaleFactor,
-            y: this.scaleFactor,
-            z: this.scaleFactor
-          });
+        if (event.touches.length === 2 && this.initialDistance) {
+          const currentDistance = this.getDistance(event.touches[0], event.touches[1]);
+          const scaleFactor = currentDistance / this.initialDistance;
+          this.el.object3D.scale.set(
+            this.initialScale.x * scaleFactor,
+            this.initialScale.y * scaleFactor,
+            this.initialScale.z * scaleFactor
+          );
         }
       },
-
-      onTouchEnd: function () {
-        this.scaleStart = 1;
-        this.scaleFactor = 1;
-      },
-
-      calculateDistance: function (touch1, touch2) {
-        const dx = touch2.pageX - touch1.pageX;
-        const dy = touch2.pageY - touch1.pageY;
+      getDistance: function (touch1, touch2) {
+        const dx = touch2.clientX - touch1.clientX;
+        const dy = touch2.clientY - touch1.clientY;
         return Math.sqrt(dx * dx + dy * dy);
       }
     });
 
-    // Rotation on Scroll
+    // Touch Rotate Component
     AFRAME.registerComponent('touch-rotate', {
       init: function () {
-        this.lastY = null;
-        this.rotationSpeed = 0.5;
-
-        this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
+        this.previousTouchX = null;
+        this.el.sceneEl.addEventListener('touchmove', this.onTouchMove.bind(this));
       },
-
       onTouchMove: function (event) {
         if (event.touches.length === 1) {
           const touch = event.touches[0];
-          if (this.lastY !== null) {
-            const deltaY = touch.pageY - this.lastY;
-            const rotation = this.el.getAttribute('rotation');
-            rotation.y += deltaY * this.rotationSpeed;
-            this.el.setAttribute('rotation', rotation);
+          if (this.previousTouchX !== null) {
+            const movementX = touch.clientX - this.previousTouchX;
+            this.el.object3D.rotation.y -= movementX * 0.01;
           }
-          this.lastY = touch.pageY;
+          this.previousTouchX = touch.clientX;
         }
       }
     });
