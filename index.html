@@ -92,13 +92,27 @@
         animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear;">
         
         <!-- Models -->
+        <!-- Village Model (no rotation) -->
         <a-entity id="villageModel" gltf-model="#villageAsset" scale="0.01 0.01 0.01" visible="true" touch-scale touch-rotate></a-entity>
-        <a-entity id="windModel" gltf-model="#windAsset" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
-        <a-entity id="geothermalModel" gltf-model="#geothermalAsset" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
-        <a-entity id="solarModel" gltf-model="#solarAsset" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
-        <a-entity id="waterModel" gltf-model="#waterAsset" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
-        <a-entity id="composterModel" gltf-model="#composterAsset" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
-        <a-entity id="bagsModel" gltf-model="#bagsAsset" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
+
+        <!-- Wind Charge -->
+        <a-entity id="windModel" gltf-model="#windAsset" rotation="90 0 0" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
+
+        <!-- Geothermal Plant -->
+        <a-entity id="geothermalModel" gltf-model="#geothermalAsset" rotation="90 0 0" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
+
+        <!-- Solar Panel -->
+        <a-entity id="solarModel" gltf-model="#solarAsset" rotation="90 0 0" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
+
+        <!-- Hydro Energy -->
+        <a-entity id="waterModel" gltf-model="#waterAsset" rotation="90 0 0" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
+
+        <!-- Composter -->
+        <a-entity id="composterModel" gltf-model="#composterAsset" rotation="90 0 0" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
+
+        <!-- Re-usable Bags -->
+        <a-entity id="bagsModel" gltf-model="#bagsAsset" rotation="90 0 0" scale="3 3 3" visible="false" touch-scale touch-rotate></a-entity>
+
 
       </a-entity>
     </a-marker>
